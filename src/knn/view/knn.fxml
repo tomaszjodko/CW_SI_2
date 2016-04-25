@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane fx:id="rootNode" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="500.0" minWidth="700.0" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="knn.view.knnController">
+   <top>
+      <VBox BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </BorderPane.margin>
+         <children>
+            <VBox prefHeight="53.0" prefWidth="580.0">
+               <children>
+                  <Label text="System treningowy:" />
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <TextField fx:id="tfSystemTreningowyPath" editable="false" prefHeight="25.0" prefWidth="480.0" text="File path..." HBox.hgrow="ALWAYS" />
+                        <Button fx:id="btnChooseSystemTreningowy" minHeight="25.0" minWidth="85.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="85.0" text="Choose file...">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox prefHeight="36.0" prefWidth="580.0">
+               <children>
+                  <Label text="System testowy:" />
+                  <HBox prefHeight="48.0" prefWidth="580.0">
+                     <children>
+                        <TextField fx:id="tfSystemTestowyPath" disable="true" prefHeight="25.0" prefWidth="480.0" text="File path..." HBox.hgrow="ALWAYS" />
+                        <Button fx:id="btnChooseSystemTestowy" disable="true" minHeight="25.0" minWidth="85.0" mnemonicParsing="false" onAction="#wybierzSystemTestowy" prefHeight="25.0" prefWidth="85.0" text="Choose file..." underline="true">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </VBox>
+   </top>
+   <right>
+      <VBox maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefHeight="385.0" prefWidth="206.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Ustawienia:" />
+            <VBox prefHeight="133.0" prefWidth="196.0">
+               <children>
+                  <Label text="Metryka:" />
+                  <RadioButton fx:id="rbMetrykaEuklidesowa" disable="true" mnemonicParsing="false" selected="true" text="Euklidesowa">
+                     <VBox.margin>
+                        <Insets left="5.0" />
+                     </VBox.margin>
+                     <toggleGroup>
+                        <ToggleGroup fx:id="metryki" />
+                     </toggleGroup>
+                  </RadioButton>
+                  <RadioButton fx:id="rbMetrykaManhattan" disable="true" mnemonicParsing="false" text="Manhattan" toggleGroup="$metryki">
+                     <VBox.margin>
+                        <Insets left="5.0" />
+                     </VBox.margin>
+                  </RadioButton>
+                  <RadioButton fx:id="rbMetrykaCanberra" disable="true" mnemonicParsing="false" text="Canberra" toggleGroup="$metryki">
+                     <padding>
+                        <Insets left="5.0" />
+                     </padding>
+                  </RadioButton>
+                  <RadioButton fx:id="rbMetrykaCzebyszewa" disable="true" mnemonicParsing="false" text="Czebyszewa" toggleGroup="$metryki">
+                     <padding>
+                        <Insets left="5.0" />
+                     </padding>
+                  </RadioButton>
+                  <RadioButton fx:id="rbMetrykaPearsona" disable="true" mnemonicParsing="false" text="Pearsona" toggleGroup="$metryki">
+                     <padding>
+                        <Insets left="5.0" />
+                     </padding>
+                  </RadioButton>
+               </children>
+               <VBox.margin>
+                  <Insets left="10.0" top="5.0" />
+               </VBox.margin>
+            </VBox>
+            <VBox prefHeight="251.0" prefWidth="196.0">
+               <children>
+                  <Label text="k:" />
+                  <ComboBox fx:id="cbWartoscK" disable="true" prefWidth="150.0" promptText="Wartosc k">
+                     <VBox.margin>
+                        <Insets left="5.0" />
+                     </VBox.margin>
+                  </ComboBox>
+               </children>
+               <VBox.margin>
+                  <Insets left="10.0" top="5.0" />
+               </VBox.margin>
+            </VBox>
+            <VBox prefHeight="54.0" prefWidth="206.0">
+               <children>
+                  <Button fx:id="btnKlasyfikuj" alignment="BOTTOM_RIGHT" disable="true" mnemonicParsing="false" prefHeight="1.0" prefWidth="150.0" text="Klasyfikuj system testowy">
+                     <VBox.margin>
+                        <Insets left="10.0" />
+                     </VBox.margin>
+                  </Button>
+               </children>
+            </VBox>
+         </children>
+         <BorderPane.margin>
+            <Insets bottom="10.0" right="10.0" />
+         </BorderPane.margin>
+      </VBox>
+   </right>
+   <left>
+      <VBox prefHeight="385.0" prefWidth="172.0" BorderPane.alignment="CENTER">
+         <children>
+            <VBox prefHeight="235.0" prefWidth="172.0">
+               <children>
+                  <Label text="System treningowy:" />
+                  <TextArea fx:id="taSystemTreningowy" disable="true" editable="false" prefHeight="202.0" prefWidth="172.0" />
+               </children>
+            </VBox>
+            <VBox prefHeight="195.0" prefWidth="172.0">
+               <children>
+                  <Label text="System testowy:" />
+                  <TextArea fx:id="taSystemTestowy" disable="true" editable="false" prefHeight="204.0" prefWidth="172.0" />
+               </children>
+            </VBox>
+         </children>
+         <BorderPane.margin>
+            <Insets bottom="10.0" left="10.0" />
+         </BorderPane.margin>
+      </VBox>
+   </left>
+   <center>
+      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <VBox prefHeight="424.0" prefWidth="282.0">
+               <children>
+                  <Label text="Output:" />
+                  <TextArea fx:id="taOutput" disable="true" editable="false" prefHeight="409.0" prefWidth="282.0" />
+               </children>
+               <VBox.margin>
+                  <Insets left="10.0" right="10.0" />
+               </VBox.margin>
+               <padding>
+                  <Insets bottom="10.0" />
+               </padding>
+            </VBox>
+         </children>
+      </VBox>
+   </center>
+</BorderPane>
