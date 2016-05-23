@@ -2,7 +2,7 @@
   <artifact type="jar" name="kNN:jar">
     <output-path>$PROJECT_DIR$/out</output-path>
     <root id="archive" name="kNN.jar">
-      <element id="module-output" name="kNN" />
+      <element id="module-output" name="CW_SI_2" />
       <element id="dir-copy" path="$PROJECT_DIR$" />
       <element id="archive" name="archive.jar" />
     </root>
