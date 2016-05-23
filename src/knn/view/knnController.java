@@ -11,7 +11,7 @@ import knn.common.SystemDecyzyjny;
 import java.io.File;
 
 public class knnController {
-    private GeneratorkNN generator = new GeneratorkNN();
+    private final GeneratorkNN generator = new GeneratorkNN();
 
     @FXML
     private BorderPane rootNode;
@@ -112,6 +112,7 @@ public class knnController {
             btnChooseSystemTestowy.setDisable(false);
             tfSystemTestowyPath.setDisable(false);
             this.taOutput.clear();
+            this.cbWartoscK.getItems().clear();
             for (int i = 1; i<= generator.getMaxK(); i++){
                 this.cbWartoscK.getItems().add(i);
             }

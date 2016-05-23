@@ -47,9 +47,10 @@ public class Metryki{
         Double yDaszek = yDaszek(treningowy,n);
         Double result = 0.0;
         for (int i = 0; i<n ; i++){
-            result+=((testowy.getAtrybuty().get(i) - xDaszek)/mianownikX(testowy,n,i,xDaszek))*((treningowy.getAtrybuty().get(i) - yDaszek)/mianownikY(treningowy,n,i,yDaszek));
+            result+=(((double) testowy.getAtrybuty().get(i) - xDaszek)/mianownikX(testowy,n,xDaszek))*(((double) treningowy.getAtrybuty().get(i) - yDaszek)/mianownikY(treningowy,n,yDaszek));
         }
-        return 1-Math.abs((double)(1/n)*result);
+        return 1.00-Math.abs((1.00/n)*result);
+
     }
 
     private static Double xDaszek(Obiekt testowy, double n){
@@ -57,7 +58,7 @@ public class Metryki{
         for (int i = 0; i<n ; i++ ){
             result+=(double)testowy.getAtrybuty().get(i);
         }
-        return (1/n)*result;
+        return (1.00/n)*result;
     }
 
     private static Double yDaszek(Obiekt treningowy, double n){
@@ -65,22 +66,22 @@ public class Metryki{
         for (int i = 0; i<n ; i++ ){
             result+=(double)treningowy.getAtrybuty().get(i);
         }
-        return (1/n)*result;
+        return (1.00/n)*result;
     }
 
-    private static Double mianownikX(Obiekt testowy, double n, Integer i, Double xDaszek){
+    private static Double mianownikX(Obiekt testowy, double n, Double xDaszek){
         Double result = 0.0;
         for (int j = 0; j<n ; j++ ){
-            result+=Math.pow(testowy.getAtrybuty().get(i)-xDaszek,2);
+            result+=Math.pow(testowy.getAtrybuty().get(j)-xDaszek,2);
         }
-        return Math.sqrt((1/n)*result);
+        return Math.sqrt((1.00/n)*result);
     }
 
-    private static Double mianownikY(Obiekt treningowy, double n, Integer i, Double yDaszek){
+    private static Double mianownikY(Obiekt treningowy, double n,Double yDaszek){
         Double result = 0.0;
         for (int j = 0; j<n ; j++ ){
-            result+=Math.pow(treningowy.getAtrybuty().get(i)-yDaszek,2);
+            result+=Math.pow(treningowy.getAtrybuty().get(j)-yDaszek,2);
         }
-        return Math.sqrt((1/n)*result);
+        return Math.sqrt((1.00/n)*result);
     }
 }

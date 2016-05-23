@@ -18,13 +18,11 @@ public class GeneratorkNN {
     }
 
 
-
     public void setLiczOdleglosc(Function liczOdleglosc) {
         this.liczOdleglosc = liczOdleglosc;
     }
 
     private Function liczOdleglosc;
-
 
 
     public SystemDecyzyjny getSystemTestowy() {
@@ -54,11 +52,10 @@ public class GeneratorkNN {
     }
 
 
-
-    public GeneratorkNN(){
+    public GeneratorkNN() {
     }
 
-    private void wyznaczMaxK(){
+    private void wyznaczMaxK() {
         List<Integer> klasyDecyzyjne = new ArrayList<>();
         for (Obiekt obiekt : this.systemTreningowy.getObiekty()) {
             klasyDecyzyjne.add(obiekt.getKlasaDecyzyjna());
@@ -70,16 +67,17 @@ public class GeneratorkNN {
         }
         List<Integer> unikalneKlasy = new ArrayList<Integer>(unikalne);
         Integer najmniejszaIloscWystapien = Integer.MAX_VALUE;
-        for ( Integer klasa : unikalneKlasy) {
-            Integer iloscWystapien = Collections.frequency(klasyDecyzyjne,klasa);
-            if(iloscWystapien < najmniejszaIloscWystapien){
+        for (Integer klasa : unikalneKlasy) {
+            Integer iloscWystapien = Collections.frequency(klasyDecyzyjne, klasa);
+            if (iloscWystapien < najmniejszaIloscWystapien) {
                 najmniejszaIloscWystapien = iloscWystapien;
             }
         }
         this.maxK = najmniejszaIloscWystapien;
     }
 
-    private void generujKoncepty(){
+    private void generujKoncepty() {
+        this.koncepty.clear();
         Set<Integer> unikalne = new HashSet<Integer>();
         for (int i = 0; i < this.systemTreningowy.getObiekty().size(); i++) {
             unikalne.add(this.systemTreningowy.getObiekty().get(i).getKlasaDecyzyjna());
@@ -89,7 +87,7 @@ public class GeneratorkNN {
         for (int i = 0; i < klasyDecyzyjne.size(); i++) {
             ArrayList<Obiekt> koncept = new ArrayList<Obiekt>();
             for (int j = 0; j < this.systemTreningowy.getObiekty().size(); j++) {
-                if(this.systemTreningowy.getObiekty().get(j).getKlasaDecyzyjna() == klasyDecyzyjne.get(i)){
+                if (this.systemTreningowy.getObiekty().get(j).getKlasaDecyzyjna() == klasyDecyzyjne.get(i)) {
                     koncept.add(this.systemTreningowy.getObiekty().get(j));
                 }
             }
@@ -99,180 +97,172 @@ public class GeneratorkNN {
 
     }
 
-    public void klasyfikujEuklidesowa(Integer k){
+    public void klasyfikujEuklidesowa(Integer k) {
         for (Obiekt testowy : this.systemRoboczy.getObiekty()) {
             List<Double> odleglosciOdKonceptow = new ArrayList<>();
             for (ArrayList<Obiekt> koncept : this.koncepty) {
                 List<Double> odleglosci = new ArrayList<>();
                 for (Obiekt treningowy : koncept) {
-                    odleglosci.add(Metryki.OdlegloscEuklidesowa(testowy,treningowy));
+                    odleglosci.add(Metryki.OdlegloscEuklidesowa(testowy, treningowy));
                 }
                 Collections.sort(odleglosci);
                 Double sumaKnajmniejszych = 0.0;
-                for (int i = 0; i<k ; i++){
-                    sumaKnajmniejszych+=odleglosci.get(i);
+                for (int i = 0; i < k; i++) {
+                    sumaKnajmniejszych += odleglosci.get(i);
                 }
                 odleglosciOdKonceptow.add(sumaKnajmniejszych);
             }
-            if(Collections.frequency(odleglosciOdKonceptow, Collections.min(odleglosciOdKonceptow)) == 1){
+            if (Collections.frequency(odleglosciOdKonceptow, Collections.min(odleglosciOdKonceptow)) == 1) {
                 int najlepszyKoncept = odleglosciOdKonceptow.indexOf(Collections.min(odleglosciOdKonceptow));
                 testowy.setKlasaDecyzyjna(this.koncepty.get(najlepszyKoncept).get(0).getKlasaDecyzyjna());
-            }
-            else{
+            } else {
                 testowy.setKlasaDecyzyjna(Integer.MAX_VALUE);
             }
         }
     }
 
-    public void klasyfikujManhattan(Integer k){
+    public void klasyfikujManhattan(Integer k) {
         for (Obiekt testowy : this.systemRoboczy.getObiekty()) {
             List<Double> odleglosciOdKonceptow = new ArrayList<>();
             for (ArrayList<Obiekt> koncept : this.koncepty) {
                 List<Double> odleglosci = new ArrayList<>();
                 for (Obiekt treningowy : koncept) {
-                    odleglosci.add(Metryki.OdlegloscManhattan(testowy,treningowy));
+                    odleglosci.add(Metryki.OdlegloscManhattan(testowy, treningowy));
                 }
                 Collections.sort(odleglosci);
                 Double sumaKnajmniejszych = 0.0;
-                for (int i = 0; i<k ; i++){
-                    sumaKnajmniejszych+=odleglosci.get(i);
+                for (int i = 0; i < k; i++) {
+                    sumaKnajmniejszych += odleglosci.get(i);
                 }
                 odleglosciOdKonceptow.add(sumaKnajmniejszych);
             }
-            if(Collections.frequency(odleglosciOdKonceptow, Collections.min(odleglosciOdKonceptow)) == 1){
+            if (Collections.frequency(odleglosciOdKonceptow, Collections.min(odleglosciOdKonceptow)) == 1) {
                 int najlepszyKoncept = odleglosciOdKonceptow.indexOf(Collections.min(odleglosciOdKonceptow));
                 testowy.setKlasaDecyzyjna(this.koncepty.get(najlepszyKoncept).get(0).getKlasaDecyzyjna());
-            }
-            else{
+            } else {
                 testowy.setKlasaDecyzyjna(Integer.MAX_VALUE);
             }
         }
     }
 
-    public void klasyfikujCanberra(Integer k){
+    public void klasyfikujCanberra(Integer k) {
         for (Obiekt testowy : this.systemRoboczy.getObiekty()) {
             List<Double> odleglosciOdKonceptow = new ArrayList<>();
             for (ArrayList<Obiekt> koncept : this.koncepty) {
                 List<Double> odleglosci = new ArrayList<>();
                 for (Obiekt treningowy : koncept) {
-                    odleglosci.add(Metryki.OdlegloscCanberra(testowy,treningowy));
+                    odleglosci.add(Metryki.OdlegloscCanberra(testowy, treningowy));
                 }
                 Collections.sort(odleglosci);
                 Double sumaKnajmniejszych = 0.0;
-                for (int i = 0; i<k ; i++){
-                    sumaKnajmniejszych+=odleglosci.get(i);
+                for (int i = 0; i < k; i++) {
+                    sumaKnajmniejszych += odleglosci.get(i);
                 }
                 odleglosciOdKonceptow.add(sumaKnajmniejszych);
             }
-            if(Collections.frequency(odleglosciOdKonceptow, Collections.min(odleglosciOdKonceptow)) == 1){
+            if (Collections.frequency(odleglosciOdKonceptow, Collections.min(odleglosciOdKonceptow)) == 1) {
                 int najlepszyKoncept = odleglosciOdKonceptow.indexOf(Collections.min(odleglosciOdKonceptow));
                 testowy.setKlasaDecyzyjna(this.koncepty.get(najlepszyKoncept).get(0).getKlasaDecyzyjna());
-            }
-            else{
+            } else {
                 testowy.setKlasaDecyzyjna(Integer.MAX_VALUE);
             }
         }
     }
 
-    public void klasyfikujCzebyszewa(Integer k){
+    public void klasyfikujCzebyszewa(Integer k) {
         for (Obiekt testowy : this.systemRoboczy.getObiekty()) {
             List<Double> odleglosciOdKonceptow = new ArrayList<>();
             for (ArrayList<Obiekt> koncept : this.koncepty) {
                 List<Double> odleglosci = new ArrayList<>();
                 for (Obiekt treningowy : koncept) {
-                    odleglosci.add(Metryki.OdlegloscCzebyszewa(testowy,treningowy));
+                    odleglosci.add(Metryki.OdlegloscCzebyszewa(testowy, treningowy));
                 }
                 Collections.sort(odleglosci);
                 Double sumaKnajmniejszych = 0.0;
-                for (int i = 0; i<k ; i++){
-                    sumaKnajmniejszych+=odleglosci.get(i);
+                for (int i = 0; i < k; i++) {
+                    sumaKnajmniejszych += odleglosci.get(i);
                 }
                 odleglosciOdKonceptow.add(sumaKnajmniejszych);
             }
-            if(Collections.frequency(odleglosciOdKonceptow, Collections.min(odleglosciOdKonceptow)) == 1){
+            if (Collections.frequency(odleglosciOdKonceptow, Collections.min(odleglosciOdKonceptow)) == 1) {
                 int najlepszyKoncept = odleglosciOdKonceptow.indexOf(Collections.min(odleglosciOdKonceptow));
                 testowy.setKlasaDecyzyjna(this.koncepty.get(najlepszyKoncept).get(0).getKlasaDecyzyjna());
-            }
-            else{
+            } else {
                 testowy.setKlasaDecyzyjna(Integer.MAX_VALUE);
             }
         }
     }
 
-    public void klasyfikujPearsona(Integer k){
+    public void klasyfikujPearsona(Integer k) {
         for (Obiekt testowy : this.systemRoboczy.getObiekty()) {
             List<Double> odleglosciOdKonceptow = new ArrayList<>();
             for (ArrayList<Obiekt> koncept : this.koncepty) {
                 List<Double> odleglosci = new ArrayList<>();
                 for (Obiekt treningowy : koncept) {
-                    odleglosci.add(Metryki.OdlegloscPearsona(testowy,treningowy));
+                    odleglosci.add(Metryki.OdlegloscPearsona(testowy, treningowy));
                 }
                 Collections.sort(odleglosci);
                 Double sumaKnajmniejszych = 0.0;
-                for (int i = 0; i<k ; i++){
-                    sumaKnajmniejszych+=odleglosci.get(i);
+                for (int i = 0; i < k; i++) {
+                    sumaKnajmniejszych += odleglosci.get(i);
                 }
                 odleglosciOdKonceptow.add(sumaKnajmniejszych);
             }
-            if(Collections.frequency(odleglosciOdKonceptow, Collections.min(odleglosciOdKonceptow)) == 1){
+            if (Collections.frequency(odleglosciOdKonceptow, Collections.min(odleglosciOdKonceptow)) == 1) {
                 int najlepszyKoncept = odleglosciOdKonceptow.indexOf(Collections.min(odleglosciOdKonceptow));
                 testowy.setKlasaDecyzyjna(this.koncepty.get(najlepszyKoncept).get(0).getKlasaDecyzyjna());
-            }
-            else{
+            } else {
                 testowy.setKlasaDecyzyjna(Integer.MAX_VALUE);
             }
         }
     }
 
 
-
-    private Double calcAcc(Integer klasa, Integer iloscWystapien){
+    private Double calcAcc(Integer klasa, Integer iloscWystapien) {
         Double trafienia = 0.0;
         Integer ilosc = iloscWystapien;
-        for (int i = 0; i<this.systemTestowy.getObiekty().size(); i++){
-            if(this.systemTestowy.getObiekty().get(i).getKlasaDecyzyjna() == klasa && this.systemRoboczy.getObiekty().get(i).getKlasaDecyzyjna() == klasa){
+        for (int i = 0; i < this.systemTestowy.getObiekty().size(); i++) {
+            if (this.systemTestowy.getObiekty().get(i).getKlasaDecyzyjna() == klasa && this.systemRoboczy.getObiekty().get(i).getKlasaDecyzyjna() == klasa) {
                 trafienia++;
-            }
-            else if(this.systemTestowy.getObiekty().get(i).getKlasaDecyzyjna() == klasa && this.systemRoboczy.getObiekty().get(i).getKlasaDecyzyjna() == Integer.MAX_VALUE){
+            } else if (this.systemTestowy.getObiekty().get(i).getKlasaDecyzyjna() == klasa && this.systemRoboczy.getObiekty().get(i).getKlasaDecyzyjna() == Integer.MAX_VALUE) {
                 ilosc--;
             }
         }
-        return trafienia/ilosc;
+        return trafienia / ilosc;
     }
 
-    private Double calcCov(Integer klasa, Integer iloscWystapien){
+    private Double calcCov(Integer klasa, Integer iloscWystapien) {
         Double trafienia = 0.0;
-        for (int i = 0; i<this.systemTestowy.getObiekty().size(); i++){
-            if(this.systemTestowy.getObiekty().get(i).getKlasaDecyzyjna() == klasa && this.systemRoboczy.getObiekty().get(i).getKlasaDecyzyjna() != Integer.MAX_VALUE){
+        for (int i = 0; i < this.systemTestowy.getObiekty().size(); i++) {
+            if (this.systemTestowy.getObiekty().get(i).getKlasaDecyzyjna() == klasa && this.systemRoboczy.getObiekty().get(i).getKlasaDecyzyjna() != Integer.MAX_VALUE) {
                 trafienia++;
             }
         }
-        return trafienia/iloscWystapien;
+        return trafienia / iloscWystapien;
     }
 
-    private Double calcTPR(Integer klasa){
+    private Double calcTPR(Integer klasa) {
         Double trafienia = 0.0;
         Double licz = 0.0;
-        for (int i = 0; i<this.systemTestowy.getObiekty().size(); i++) {
+        for (int i = 0; i < this.systemTestowy.getObiekty().size(); i++) {
             if (this.systemRoboczy.getObiekty().get(i).getKlasaDecyzyjna() != Integer.MAX_VALUE) {
                 if (this.systemTestowy.getObiekty().get(i).getKlasaDecyzyjna() == klasa && this.systemRoboczy.getObiekty().get(i).getKlasaDecyzyjna() == klasa) {
                     trafienia++;
                     licz++;
-                }
-                else if(this.systemRoboczy.getObiekty().get(i).getKlasaDecyzyjna() == klasa && this.systemTestowy.getObiekty().get(i).getKlasaDecyzyjna() != klasa){
+                } else if (this.systemRoboczy.getObiekty().get(i).getKlasaDecyzyjna() == klasa && this.systemTestowy.getObiekty().get(i).getKlasaDecyzyjna() != klasa) {
                     licz++;
                 }
             }
         }
-        return trafienia/licz;
+        return trafienia / licz;
     }
 
 
     @Override
-    public String toString(){
+    public String toString() {
         String result = "";
-        result+=this.systemRoboczy.toString();
-        result+="\n";
+        result += this.systemRoboczy.toString();
+        result += "\n";
 
         List<Integer> klasyDecyzyjne = new ArrayList<>();
         for (Obiekt obiekt : this.systemTestowy.getObiekty()) {
@@ -280,14 +270,14 @@ public class GeneratorkNN {
         }
         Set<Integer> unikalne = new HashSet<Integer>(klasyDecyzyjne);
         List<Integer> unikalneKlasy = new ArrayList<Integer>(unikalne);
-        result+="=========================================\n";
-        result+="Klasa:  Ilosc:   Acc:     Cov:      TPR: \n";
-        result+="=========================================\n";
-        for ( Integer klasa : unikalneKlasy) {
-            Integer iloscWystapien = Collections.frequency(klasyDecyzyjne,klasa);
-            result += klasa + "         " + iloscWystapien + "         " + calcAcc(klasa,iloscWystapien) + "         " + calcCov(klasa,iloscWystapien) + "         " + calcTPR(klasa) + "\n";
+        result += "=========================================\n";
+        result += "Klasa:  Ilosc:   Acc:     Cov:      TPR: \n";
+        result += "=========================================\n";
+        for (Integer klasa : unikalneKlasy) {
+            Integer iloscWystapien = Collections.frequency(klasyDecyzyjne, klasa);
+            result += klasa + "         " + iloscWystapien + "         " + calcAcc(klasa, iloscWystapien) + "         " + calcCov(klasa, iloscWystapien) + "         " + calcTPR(klasa) + "\n";
         }
-        result+="=========================================\n";
+        result += "=========================================\n";
         return result;
     }
 
